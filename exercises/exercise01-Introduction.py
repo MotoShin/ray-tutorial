@@ -12,13 +12,10 @@ def slow_function(i):
     time.sleep(1)
     return i
 
-time.sleep(10.0)
+time.sleep(2.0)
 start_time = time.time()
 
-results = []
-for i in range(4):
-    result = slow_function.remote(i)
-    results.append(ray.get(result))
+results = ray.get([slow_function.remote(i) for i in range(4)])
 
 end_time = time.time()
 duration = end_time - start_time
